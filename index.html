@@ -326,11 +326,9 @@ function pop(txt){
   if(txt==='concierge'){t='Private Concierge';d='Connecting you to your dedicated travel advisor via secure channel...';}
   if(txt==='Aman'){t='Amanzoe Private Villas';d='The most exclusive resort in the Mediterranean. Set on a hilltop on the east coast of Greece’s Peloponnese peninsula.';}
   
-  c.innerHTML=\`
-    <div class="pop-t">\${t}</div>
-    <div class="pop-d">\${d}</div>
-    <button class="btn btn-pri" onclick="closePop()">Close</button>
-  \`;
+  c.innerHTML = '<div class="pop-t">' + t + '</div>' + 
+                '<div class="pop-d">' + d + '</div>' + 
+                '<button class="btn btn-pri" onclick="closePop()">Close</button>';
   document.getElementById('popOv').classList.add('open');
 }
 
