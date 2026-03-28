@@ -1,339 +1,1635 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#080A0B">
-<title>Altus — High Altitude Travel</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;scrollbar-width:none;-ms-overflow-style:none}
-*::-webkit-scrollbar{display:none}
-html,body{width:100%;height:100%;font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;background:#030404;overflow:hidden;transition:background .6s ease}
-:root{
---bg:#080A0B;--bg2:#111518;--bg3:#1B2025;
---pri:#2C443E;--acc:#C2A878;--snd:#D9CDBF;
---glass:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.06);
---t1:white;--t2:rgba(255,255,255,0.7);--t3:rgba(255,255,255,0.4);--t4:rgba(255,255,255,0.2);
---r:24px;--rl:32px;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Altus — High Altitude Travel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* ===== APP GLOW ===== */
-.app-glow{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:160vw;max-width:1400px;height:120vh;background:radial-gradient(ellipse at center, rgba(44,68,62,.18) 0%, rgba(194,168,120,.08) 40%, transparent 70%);filter:blur(100px);pointer-events:none;animation:glowPulse 12s ease-in-out infinite alternate;transition:opacity .6s;mix-blend-mode:screen}
-@keyframes glowPulse{0%{opacity:.5;transform:translate(-50%,-50%) scale(.9)}100%{opacity:.9;transform:translate(-50%,-50%) scale(1.1)}}
+    :root {
+      --bg: #000000;
+      --bg2: #0A0A0A;
+      --bg3: #111111;
+      --pri: #1A1A1A;
+      --acc: #E2DFD2;
+      /* Very muted off-white/bone color instead of gold for SaaS minimalism */
+      --warm: #FFFFFF;
+      --err: #FF453A;
+      --glass: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --t1: #FFFFFF;
+      --t2: rgba(255, 255, 255, 0.65);
+      --t3: rgba(255, 255, 255, 0.4);
+      --t4: rgba(255, 255, 255, 0.15);
+      --r: 8px;
+      --rl: 12px;
+    }
 
-/* ===== PHONE FRAME ===== */
-.phone{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;max-width:430px;height:850px;max-height:92vh;background:rgba(8,10,11,.85);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.05);color:var(--t1);overflow:hidden;display:flex;flex-direction:column;border-radius:48px;box-shadow:0 24px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.1);transition:all .5s ease}
-.phone-inner{position:relative;flex:1;display:flex;flex-direction:column;z-index:1;overflow:hidden}
+    /* Hide Native Scrollbars Globally */
+    ::-webkit-scrollbar {
+      display: none;
+    }
 
-/* ===== SCREENS ===== */
-.scr{display:none;flex-direction:column;height:100%;width:100%;overflow:hidden;animation:slideUp .5s cubic-bezier(.16,1,.3,1)}
-.scr.active{display:flex}
-.scr-body{flex:1;overflow-y:auto;padding:0 16px 100px;display:flex;flex-direction:column;gap:20px;scroll-behavior:smooth}
-@keyframes slideUp{from{opacity:0;transform:translateY(15px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
 
-/* ===== HEADER ===== */
-.dash-head{padding:24px 16px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.dash-name{font-family:'Playfair Display',serif;font-size:32px;color:var(--t1);font-style:italic;letter-spacing:1px}
-.dash-actions{display:flex;gap:12px}
-.ico-btn{width:42px;height:42px;border-radius:50%;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t1);transition:all .3s}
-.ico-btn:hover{background:rgba(255,255,255,.1)}
-.ico-btn svg{width:18px;height:18px}
+    body {
+      background: #000000;
+      font-family: 'Outfit', sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
 
-.sub-head{padding:20px 16px;display:flex;align-items:baseline;justify-content:space-between;flex-shrink:0}
-.sub-title{font-size:24px;font-weight:300;color:var(--t1);letter-spacing:1px}
-.sub-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--acc);font-weight:600}
+    .ambient-video {
+      position: fixed;
+      top: -10%; left: -10%;
+      width: 120%; height: 120%;
+      object-fit: cover;
+      z-index: 0;
+      filter: blur(40px) brightness(0.4) saturate(1.3);
+      -webkit-filter: blur(40px) brightness(0.4) saturate(1.3);
+      opacity: 1;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
 
-/* ===== HERO CARDS ===== */
-.h-card{position:relative;width:100%;height:400px;border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.h-card:hover{transform:scale(.98)}
-.h-img{width:100%;height:100%;object-fit:cover;transition:transform 1.5s ease;background:#1A2522}
-.h-card:hover .h-img{transform:scale(1.05)}
-.h-over{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.1) 40%, transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:28px 24px}
-.h-tag{background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:6px 12px;border-radius:20px;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:white;align-self:flex-start;margin-bottom:auto}
-.h-title{font-size:28px;font-weight:300;color:white;margin-bottom:6px;line-height:1.1}
-.h-loc{font-family:'DM Mono',monospace;font-size:11px;color:var(--acc)}
+    .bg-video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
 
-/* ===== DESTINATION GRID ===== */
-.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.d-card{position:relative;height:220px;border-radius:var(--r);overflow:hidden;cursor:pointer}
-.d-card img{width:100%;height:100%;object-fit:cover}
-.d-over{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.8) 0%, transparent 60%);padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
-.d-title{font-size:18px;color:white;font-weight:400}
+    .video-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.2) 65%, rgba(0,0,0,0.5) 100%);
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
 
-/* ===== SEARCH BARS ===== */
-.s-bar{display:flex;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;gap:16px;}
-.s-bar svg{width:20px;height:20px;color:var(--t3)}
-.s-in{background:none;border:none;flex:1;color:var(--t1);font-family:'Outfit',sans-serif;font-size:15px;outline:none}
-.s-in::placeholder{color:var(--t3)}
-.pill-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
-.pill{padding:8px 16px;background:var(--glass);border:1px solid var(--border);border-radius:20px;font-size:12px;color:var(--t2);cursor:pointer;white-space:nowrap}
-.pill.act{background:var(--t1);color:var(--bg);border-color:var(--t1)}
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
 
-/* ===== ITINERARY TIMELINE ===== */
-.itin-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative;overflow:hidden}
-.itin-box::before{content:'';position:absolute;top:0;right:0;width:150px;height:150px;background:radial-gradient(circle at top right, rgba(194,168,120,.15), transparent 70%);pointer-events:none}
-.it-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--t3);margin-bottom:20px}
-.tl-item{display:flex;gap:16px;position:relative;padding-bottom:28px}
-.tl-item:last-child{padding-bottom:0}
-.tl-item::after{content:'';position:absolute;left:5px;top:20px;bottom:0;width:1px;background:var(--border)}
-.tl-item:last-child::after{display:none}
-.tl-dot{width:11px;height:11px;border-radius:50%;background:var(--acc);position:relative;z-index:2;margin-top:4px;box-shadow:0 0 0 4px var(--bg2)}
-.tl-content{flex:1}
-.tl-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--acc);margin-bottom:4px}
-.tl-title{font-size:16px;font-weight:400;color:var(--t1);margin-bottom:6px}
-.tl-desc{font-size:12px;color:var(--t3)}
+    .phone {
+      max-width: 430px;
+      width: 100%;
+      height: 100vh;
+      max-height: 932px;
+      border-radius: 48px;
+      background: transparent;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 80px rgba(0,0,0,0.3), 0 20px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+    }
 
-/* ===== ACTION BUTTONS ===== */
-.btn{width:100%;padding:16px;background:var(--t1);color:var(--bg);border:none;border-radius:var(--r);font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all .3s}
-.btn:hover{background:var(--snd)}
-.btn-pri{background:var(--pri);color:var(--t1)}
-.btn-pri:hover{background:#35534A}
+    .phone::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 48px;
+      background: none;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-/* ===== BOTTOM NAV ===== */
-.bnav{position:absolute;bottom:0;left:0;width:100%;height:76px;background:rgba(8,10,11,.85);backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:100;padding-bottom:max(8px,env(safe-area-inset-bottom))}
-.nb{background:none;border:none;color:var(--t4);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:60px;height:50px;transition:all .3s}
-.nb:hover{color:var(--t2)}
-.nb.on{color:var(--t1)}
-.nb svg{width:22px;height:22px;stroke-width:1.5}
-.nb.on svg{stroke:var(--acc);stroke-width:1.8}
-.nb-l{font-size:9px;font-weight:400;letter-spacing:1px}
+    .splash {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: splashOut 0.6s ease 2.5s forwards;
+    }
 
-/* ===== PROFILE SLIDER ===== */
-.prof-ov{position:absolute;top:0;left:0;width:100%;height:100%;z-index:200;pointer-events:none;opacity:0;transition:opacity .4s}
-.prof-ov.open{pointer-events:all;opacity:1}
-.prof-bk{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(8px)}
-.prof-pan{position:absolute;top:0;right:0;width:85%;max-width:320px;height:100%;background:var(--bg);border-left:1px solid var(--border);transform:translateX(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);overflow-y:auto;padding:32px 24px}
-.prof-ov.open .prof-pan{transform:translateX(0)}
-.prof-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
-.prof-t{font-size:24px;font-weight:300;color:var(--t1);letter-spacing:1px}
-.set-i{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)}
-.set-n{font-size:14px;font-weight:400;color:var(--t1)}
-.set-d{font-size:11px;color:var(--t3);margin-top:2px}
+    @keyframes splashOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; pointer-events: none; }
+    }
 
-/* ===== POPUP ===== */
-.pop-ov{position:absolute;top:0;left:0;width:100%;height:100%;z-index:300;pointer-events:none;opacity:0;transition:opacity .4s;display:flex;align-items:flex-end}
-.pop-ov.open{pointer-events:all;opacity:1}
-.pop-bk{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(8px)}
-.pop-c{position:relative;width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:32px 32px 0 0;padding:32px 24px 40px;transform:translateY(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);z-index:1}
-.pop-ov.open .pop-c{transform:translateY(0)}
-.pop-t{font-size:24px;font-weight:300;color:var(--t1);margin-bottom:12px;letter-spacing:1px}
-.pop-d{font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:28px;font-weight:300}
+    .splash-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 16px;
+      stroke: var(--acc);
+      transform-origin: center;
+      animation: compassReveal 2.5s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+    }
 
-/* ===== LIGHT MODE ===== */
-body.light{background:#EFECE6}
-.phone.light{--bg:#F7F5F0;--bg2:#EFECE6;--bg3:#E4DFD6;--glass:rgba(0,0,0,.03);--border:rgba(0,0,0,.08);--t1:#111518;--t2:#444;--t3:#777;--t4:rgba(0,0,0,.3);background:rgba(247,245,240,.92);border-color:rgba(255,255,255,.5);box-shadow:0 16px 50px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.8)}
-.phone.light .bnav{background:rgba(247,245,240,.92);border-top-color:rgba(0,0,0,.08)}
-.phone.light .h-over{background:linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 60%)}
-.phone.light .d-over{background:linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 60%)}
-.phone.light .itin-box::before{opacity:0.5}
-.phone.light .tl-item::after{background:rgba(0,0,0,.1)}
-.phone.light .tl-dot{box-shadow:0 0 0 4px var(--bg2)}
-.phone.light .btn-pri{background:var(--pri);color:white}
-</style>
+    @keyframes compassReveal {
+      0% {
+        transform: scale(0.8) rotate(-45deg);
+        opacity: 0;
+        filter: drop-shadow(0 0 0 rgba(194, 168, 120, 0));
+      }
+
+      40% {
+        transform: scale(1.05) rotate(10deg);
+        opacity: 1;
+        filter: drop-shadow(0 0 20px rgba(194, 168, 120, 0.6));
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        filter: drop-shadow(0 0 10px rgba(194, 168, 120, 0.3));
+      }
+    }
+
+    .splash-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .splash-tagline {
+      font-size: 12px;
+      color: var(--t3);
+      letter-spacing: 0.05em;
+    }
+
+    .phone-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 10;
+    }
+
+    .status-bar {
+      padding: 12px 24px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      color: var(--t2);
+    }
+
+    .status-icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .status-icons svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .screens {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: scale(0.98);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .screen-content {
+      padding: 0 24px 120px;
+    }
+
+    .header {
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--r);
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--t2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--acc);
+    }
+
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--rl);
+      padding: 20px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #fff;
+    }
+
+    .card:hover {
+      background: rgba(255,255,255,0.16);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .card-label {
+      font-size: 12px;
+      color: var(--t3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .card-meta {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.4;
+    }
+
+    .card-accent {
+      color: var(--acc);
+      font-weight: 500;
+    }
+
+    .card-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .bottom-nav {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 80px;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding-top: 12px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: var(--t3);
+      transition: color 0.2s ease;
+      position: relative;
+      flex: 1;
+    }
+
+    .nav-item.active {
+      color: var(--acc);
+    }
+
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      width: 4px;
+      height: 4px;
+      background: var(--acc);
+      border-radius: 50%;
+    }
+
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-label {
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .prof-ov {
+      position: absolute;
+      right: -100%; top: 0;
+      width: 85%; height: 100%;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 200;
+      transition: right 0.3s ease;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .prof-ov.open {
+      right: 0;
+    }
+
+    .prof-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .prof-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--t2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .prof-close:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .prof-close svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .prof-content {
+      flex: 1;
+      padding: 24px 20px;
+    }
+
+    .prof-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--acc), var(--warm));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--bg);
+    }
+
+    .prof-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .prof-meta {
+      font-size: 12px;
+      color: var(--t3);
+      margin-bottom: 20px;
+    }
+
+    .prof-stat {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .prof-stat-label {
+      color: var(--t3);
+    }
+
+    .prof-stat-value {
+      font-weight: 600;
+      color: var(--acc);
+    }
+
+    .prof-badges {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+    .prof-badge {
+      display: inline-block;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      color: var(--acc);
+    }
+
+    .prof-button {
+      width: 100%;
+      padding: 12px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--t2);
+      border-radius: var(--r);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .prof-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--acc);
+    }
+
+    .prof-signout {
+      margin-top: 24px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    .prof-button.signout {
+      background: transparent;
+      border: 1px solid var(--err);
+      color: var(--err);
+    }
+
+    .prof-button.signout:hover {
+      background: rgba(255, 107, 107, 0.1);
+    }
+
+    .pop-ov {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 800;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .pop-ov.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .pop-sheet {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; max-height: 80%;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 24px 24px 0 0;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 900;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .pop-ov.open .pop-sheet {
+      transform: translateY(0);
+    }
+
+    .pop-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--t4);
+      border-radius: 2px;
+      margin: 12px auto 0;
+    }
+
+    .pop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pop-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .pop-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--t2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .pop-close:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .pop-close svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .pop-content {
+      padding: 20px 24px 40px;
+    }
+
+    .pop-section {
+      margin-bottom: 24px;
+    }
+
+    .pop-section-title {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .pop-text {
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 12px;
+    }
+
+    .pop-list {
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.8;
+    }
+
+    .pop-list li {
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 8px;
+      margin-left: 20px;
+    }
+
+    .toggle-switch {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .toggle-switch label {
+      color: rgba(255,255,255,0.85);
+      cursor: pointer;
+    }
+
+    .toggle {
+      width: 44px;
+      height: 24px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .toggle.on {
+      background: rgba(255,255,255,0.35);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      top: 1px;
+      left: 1px;
+      transition: left 0.2s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .toggle.on::after {
+      left: 21px;
+    }
+
+    .explore-search {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 12px 16px;
+      border-radius: var(--rl);
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      width: 100%;
+      margin-bottom: 24px;
+      outline: none;
+    }
+
+    .carousel {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      padding-right: 24px;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--t4) transparent;
+    }
+
+    .carousel::-webkit-scrollbar {
+      display: block;
+      height: 4px;
+    }
+
+    .carousel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .carousel::-webkit-scrollbar-thumb {
+      background: var(--t4);
+      border-radius: 4px;
+    }
+
+    .carousel::-webkit-scrollbar-thumb:hover {
+      background: var(--t3);
+    }
+
+    .carousel::-webkit-scrollbar-button {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    .carousel-item {
+      flex-shrink: 0;
+      width: 160px;
+      border-radius: var(--rl);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      border: 1px solid var(--border);
+      scroll-snap-align: start;
+    }
+
+    .carousel-item:hover {
+      transform: scale(1.02);
+    }
+
+    .carousel-img {
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(135deg, var(--acc), var(--warm));
+      object-fit: cover;
+    }
+
+    .carousel-overlay {
+      padding: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .carousel-title {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .carousel-meta {
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--t2);
+    }
+
+    .trip-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--rl);
+      overflow: hidden;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #fff;
+    }
+
+    .trip-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .trip-img {
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(135deg, var(--pri), var(--acc));
+    }
+
+    .trip-info {
+      padding: 16px;
+    }
+
+    .trip-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .trip-meta {
+      font-size: 12px;
+      color: var(--t3);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .trip-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .trip-duration {
+      background: var(--glass);
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: var(--t2);
+      border: 1px solid var(--border);
+    }
+
+    .trip-price {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #fff;
+      font-weight: 600;
+      font-size: 11px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.03em;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .trip-price:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .guide-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--rl);
+      padding: 16px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #fff;
+    }
+
+    .guide-card:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateY(-1px);
+    }
+
+    .guide-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .guide-specialty {
+      font-size: 12px;
+      color: var(--acc);
+      margin-bottom: 8px;
+    }
+
+    .guide-meta {
+      font-size: 12px;
+      color: var(--t3);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .guide-rating {
+      font-size: 12px;
+      color: var(--acc);
+      font-weight: 600;
+    }
+
+    .rating-stars {
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+    }
+
+    .mood-btn.active {
+      border-color: rgba(255,255,255,0.5) !important;
+      box-shadow: 0 0 12px rgba(255,255,255,0.1);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 12px 0;
+      border-bottom: 2px solid transparent;
+      color: var(--t3);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .tab.active {
+      border-bottom-color: var(--acc);
+      color: var(--acc);
+    }
+
+    .pop-button {
+      width: 100%;
+      padding: 14px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .pop-button:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+    }
+
+    .rating-stars {
+      color: var(--acc);
+      font-weight: 600;
+    }
+  </style>
 </head>
+
 <body>
+  <!-- AMBIENT BLURRED VIDEO BACKDROP -->
+  <video id="ambientVideo" class="ambient-video" autoplay muted loop playsinline>
+    <source src="https://raw.githubusercontent.com/i-ayush-7/My-Project/main/a-loop-night-camping-video-of-patagonia-in-chile.mp4" type="video/mp4">
+  </video>
 
-<!-- GLOW -->
-<div class="app-glow" id="appGlow"></div>
+  <div class="container">
+    <div class="phone">
+      <!-- LOOPING VIDEO BACKGROUND -->
+      <video id="bgVideo" class="bg-video" autoplay muted loop playsinline>
+        <source src="https://raw.githubusercontent.com/i-ayush-7/My-Project/main/a-loop-night-camping-video-of-patagonia-in-chile.mp4" type="video/mp4">
+      </video>
+      <div class="video-overlay"></div>
 
-<!-- PHONE -->
-<div class="phone" id="phone">
-  <div class="phone-inner">
-
-    <!-- HOME / DISCOVER -->
-    <div class="scr active" id="scr-home">
-      <div class="dash-head">
-        <div class="dash-name">Altus</div>
-        <div class="dash-actions">
-          <button class="ico-btn" id="themeBtn" onclick="togTheme()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
-          <button class="ico-btn" onclick="togProf()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
-        </div>
+      <div class="splash">
+        <svg class="splash-icon" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+        </svg>
+        <div class="splash-text">Altus</div>
+        <div class="splash-tagline">HIGH ALTITUDE TRAVEL</div>
       </div>
-      <div class="scr-body">
-        <div class="sub-head" style="padding:0;margin-bottom:8px">
-          <div class="sub-title">Curated Journeys</div><div class="sub-lbl">View All</div>
-        </div>
-        
-        <div class="h-card" onclick="pop('Aman')">
-          <img class="h-img" src="https://images.unsplash.com/photo-1582719478250-c89404da2bb2?w=800" alt="Resort">
-          <div class="h-over">
-            <div class="h-tag">Exclusive</div>
-            <div class="h-title">Amanzoe Private Villas</div>
-            <div class="h-loc">PELOPONNESE, GREECE &bull; FROM $2,400/NT</div>
-          </div>
-        </div>
-        
-        <div class="h-card" onclick="pop('Swiss')" style="height:260px;margin-top:4px">
-          <img class="h-img" src="https://images.unsplash.com/photo-1516214104703-d870798883c5?w=800" alt="Alps">
-          <div class="h-over">
-            <div class="h-title">Alpine Escapes</div>
-            <div class="h-loc">ZERMATT, SWITZERLAND</div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- SEARCH / DESTINATIONS -->
-    <div class="scr" id="scr-search">
-      <div class="sub-head" style="padding-top:24px"><div class="sub-title">Destinations</div></div>
-      <div class="scr-body">
-        <div class="s-bar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" class="s-in" placeholder="Where to next?">
-        </div>
-        
-        <div class="pill-row">
-          <div class="pill act">All</div><div class="pill">Villas</div><div class="pill">Private Islands</div><div class="pill">Chalets</div>
+      <div class="phone-inner">
+        <div class="status-bar" style="height: 12px; visibility: hidden;">
+          <!-- Status bar removed for cleaner aesthetic -->
         </div>
 
-        <div class="d-grid">
-          <div class="d-card" onclick="pop('Maldives')">
-            <img src="https://images.unsplash.com/photo-1512100356356-de1b84283e18?auto=format&fit=crop&q=80&w=400" alt="Maldives">
-            <div class="d-over"><div class="d-title">Maldives</div></div>
-          </div>
-          <div class="d-card" onclick="pop('Amalfi')">
-            <img src="https://images.unsplash.com/photo-1533676802871-eca1ae998cd5?auto=format&fit=crop&q=80&w=400" alt="Amalfi">
-            <div class="d-over"><div class="d-title">Amalfi Coast</div></div>
-          </div>
-          <div class="d-card" onclick="pop('Kyoto')">
-            <img src="https://images.unsplash.com/photo-1493976040375-30154bc85065?auto=format&fit=crop&q=80&w=400" alt="Kyoto">
-            <div class="d-over"><div class="d-title">Kyoto</div></div>
-          </div>
-          <div class="d-card" onclick="pop('Aspen')">
-            <img src="https://images.unsplash.com/photo-1542384666-4b2a33391d64?auto=format&fit=crop&q=80&w=400" alt="Aspen">
-            <div class="d-over"><div class="d-title">Aspen</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <div class="screens">
+          <!-- HOME SCREEN -->
+          <div class="screen active" data-screen="home">
+            <div class="screen-content">
+              <div class="header" style="justify-content: space-between; align-items: flex-start; width: 100%; flex-direction: column; gap: 4px;">
+                <div style="font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; opacity: 0.6; text-transform: uppercase;">Altus</div>
+                <div class="header-title" style="text-align: left;">Good evening, Om</div>
+              </div>
 
-    <!-- ITINERARY -->
-    <div class="scr" id="scr-itin">
-      <div class="sub-head" style="padding-top:24px"><div class="sub-title">Your Journey</div><div class="sub-lbl" style="color:var(--t2)">4 DAYS</div></div>
-      <div class="scr-body">
-        <div class="itin-box">
-          <div class="it-lbl">Friday, Nov 12</div>
-          
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <div class="tl-time">08:00 AM</div>
-              <div class="tl-title">Chauffeur Arrival</div>
-              <div class="tl-desc">Mercedes S-Class assigned. License MW72 KLP.</div>
+              <!-- Hero Style Card -->
+              <div class="card" style="padding: 24px; background: rgba(0,0,0,0.25); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); border-radius: 16px; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);" onclick="openPopup('expedition')">
+                <div class="card-label" style="color: rgba(255,255,255,0.6); letter-spacing: 0.1em;">NEXT EXPEDITION</div>
+                <div class="card-title" style="font-size: 28px; line-height: 1.1; margin: 12px 0; color:#fff;">Everest Base Camp</div>
+                <div class="card-meta" style="color:rgba(255,255,255,0.65);">Nepal • <span style="color:#fff;">Apr 2–18, 2026</span></div>
+              </div>
+
+              <!-- By Mood Focus Section -->
+              <div class="section-title" style="margin-top: 24px; color: rgba(255,255,255,0.7);">By Mood Focus</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+
+                <!-- CALM -->
+                <div class="mood-btn active" id="mood-calm" onclick="switchMood('calm', this)"
+                  style="padding: 16px; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: flex-end;
+                    background-image: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.1) 100%), url('assets/calm_lake.jpg');
+                    background-size: cover; background-position: center;
+                    border: 1px solid rgba(255,255,255,0.3); border-radius: 16px; margin-bottom: 0; color: #fff; cursor: pointer; transition: all 0.3s ease;">
+                  <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.12em; opacity: 0.7; margin-bottom: 4px;">MOOD</div>
+                  <div style="font-size: 18px; font-weight: 700;">Calm</div>
+                  <div style="font-size: 11px; opacity: 0.6; margin-top: 4px;">Patagonia Night</div>
+                </div>
+
+                <!-- ENERGETIC -->
+                <div class="mood-btn" id="mood-energetic" onclick="switchMood('energetic', this)"
+                  style="padding: 16px; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: flex-end;
+                    background-image: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.1) 100%), url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=400');
+                    background-size: cover; background-position: center;
+                    border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; margin-bottom: 0; color: #fff; cursor: pointer; transition: all 0.3s ease;">
+                  <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.12em; opacity: 0.7; margin-bottom: 4px;">MOOD</div>
+                  <div style="font-size: 18px; font-weight: 700;">Energetic</div>
+                  <div style="font-size: 11px; opacity: 0.6; margin-top: 4px;">Dark Forest</div>
+                </div>
+
+                <!-- INTENSE -->
+                <div class="mood-btn" id="mood-intense" onclick="switchMood('intense', this)"
+                  style="grid-column: span 2; padding: 16px; aspect-ratio: 16 / 9; display: flex; flex-direction: column; justify-content: flex-end;
+                    background-image: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.1) 100%), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800');
+                    background-size: cover; background-position: center;
+                    border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; margin-bottom: 0; color: #fff; cursor: pointer; transition: all 0.3s ease;">
+                  <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.12em; opacity: 0.7; margin-bottom: 4px;">MOOD</div>
+                  <div style="font-size: 24px; font-weight: 700;">Intense</div>
+                  <div style="font-size: 11px; opacity: 0.6; margin-top: 4px;">K2 Summit</div>
+                </div>
+
+              </div>
+
+
+              <!-- Grid Style Cards -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                <div class="card" style="margin-bottom: 0;" onclick="goToScreen('guides')">
+                  <div class="card-label">Acclimatization</div>
+                  <div class="card-title" style="font-size: 20px;">94% <span
+                      style="font-size: 11px; opacity: 0.5;">FIT</span></div>
+                  <div class="card-meta" style="font-size: 11px;">Current level at 3,200m</div>
+                </div>
+                <div class="card" style="margin-bottom: 0;" onclick="openPopup('weather')">
+                  <div class="card-label">Summit Weather</div>
+                  <div class="card-title" style="font-size: 20px;">-8°C</div>
+                  <div class="card-meta" style="font-size: 11px;">Clear skies • 15 km/h</div>
+                </div>
+              </div>
+
+              <!-- Pill/List Style Cards -->
+              <div class="card"
+                style="padding: 16px; display: flex; align-items: center; justify-content: space-between;"
+                onclick="goToScreen('trips')">
+                <div>
+                  <div class="card-title" style="margin-bottom: 2px;">Active Trips</div>
+                  <div class="card-meta" style="font-size: 11px;">3 Upcoming Expeditions</div>
+                </div>
+                <div
+                  style="width: 32px; height: 32px; border-radius: 50%; background: var(--glass); display: flex; align-items: center; justify-content: center;">
+                  →</div>
+              </div>
+
+              <div class="card"
+                style="padding: 16px; display: flex; align-items: center; justify-content: space-between;"
+                onclick="openPopup('stats')">
+                <div>
+                  <div class="card-title" style="margin-bottom: 2px;">Explorer Stats</div>
+                  <div class="card-meta" style="font-size: 11px;">12 Trips • 47,000m Elevation</div>
+                </div>
+                <div
+                  style="width: 32px; height: 32px; border-radius: 50%; background: var(--glass); display: flex; align-items: center; justify-content: center;">
+                  →</div>
+              </div>
+
+
             </div>
           </div>
-          
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <div class="tl-time">09:30 AM</div>
-              <div class="tl-title">Private Jet Departure</div>
-              <div class="tl-desc">Farnborough (FAB) to Santorini (JTR). Tail N458GX.</div>
+
+          <!-- EXPLORE SCREEN -->
+          <div class="screen" data-screen="explore">
+            <div class="screen-content">
+              <div class="header" style="margin-bottom: 16px;">
+                <div class="header-title">Explore</div>
+              </div>
+              <input type="text" class="explore-search" placeholder="Search destinations...">
+
+              <div class="section-title">Featured Destinations</div>
+              <div class="carousel">
+                <div class="carousel-item" onclick="openPopup('dest-ebc')">
+                  <img src="https://images.unsplash.com/photo-1486911278844-a81c5267e227?w=400" class="carousel-img"
+                    alt="Everest">
+                  <div class="carousel-overlay">
+                    <div class="carousel-title">Everest Base</div>
+                    <div class="carousel-meta">Nepal • 5,364m</div>
+                  </div>
+                </div>
+                <div class="carousel-item" onclick="openPopup('dest-pat')">
+                  <img src="https://images.unsplash.com/photo-1478827536114-da961b7f86d2?w=400" class="carousel-img"
+                    alt="Patagonia">
+                  <div class="carousel-overlay">
+                    <div class="carousel-title">Patagonia</div>
+                    <div class="carousel-meta">Chile • 4,058m</div>
+                  </div>
+                </div>
+                <div class="carousel-item" onclick="openPopup('dest-dol')">
+                  <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400" class="carousel-img"
+                    alt="Dolomites">
+                  <div class="carousel-overlay">
+                    <div class="carousel-title">Dolomites</div>
+                    <div class="carousel-meta">Italy • 3,999m</div>
+                  </div>
+                </div>
+                <div class="carousel-item" onclick="openPopup('dest-swiss')">
+                  <img src="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400" class="carousel-img"
+                    alt="Swiss Alps">
+                  <div class="carousel-overlay">
+                    <div class="carousel-title">Swiss Alps</div>
+                    <div class="carousel-meta">Switzerland • 4,634m</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-title">Trending Treks</div>
+              <div class="card" onclick="openPopup('trek-mb')">
+                <div class="card-label">Featured</div>
+                <div class="card-title">Mont Blanc Circuit</div>
+                <div class="card-meta">France/Italy/Switzerland • 4,808m • 12 days<br>€2,850 • Moderate difficulty</div>
+                <div class="card-badge">Popular</div>
+              </div>
+              <div class="card" onclick="openPopup('trek-gr')">
+                <div class="card-label">Featured</div>
+                <div class="card-title">GR20 Corsica Trail</div>
+                <div class="card-meta">France • 2,710m • 15 days<br>€1,600 • Challenging</div>
+                <div class="card-badge">New Season</div>
+              </div>
+
+
             </div>
           </div>
 
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <div class="tl-time">03:00 PM</div>
-              <div class="tl-title">Villa Check-in</div>
-              <div class="tl-desc">Canaves Oia Epitome. Estate Villa with Pool.</div>
+          <!-- TRIPS SCREEN -->
+          <div class="screen" data-screen="trips">
+            <div class="screen-content">
+              <div class="header" style="margin-bottom: 12px;">
+                <div class="header-title">Trips</div>
+              </div>
+
+              <div class="tabs">
+                <div class="tab active" onclick="switchTab(this, 'upcoming')">Upcoming</div>
+                <div class="tab" onclick="switchTab(this, 'past')">Past</div>
+              </div>
+
+              <div id="upcoming">
+                <div class="trip-card" onclick="openPopup('trip-ebc')">
+                  <div class="trip-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800'); background-size: cover; background-position: center;">
+                  </div>
+                  <div class="trip-info">
+                    <div class="trip-title">Everest Base Camp</div>
+                    <div class="trip-meta">Apr 2–18, 2026 • 16 days<br>Nepal • 5,364m elevation<br>Confirmation:
+                      ALT-2847</div>
+                    <div class="trip-footer">
+                      <span class="trip-duration">$4,200</span>
+                      <span class="trip-price">Book Details</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="trip-card" onclick="openPopup('trip-mb')">
+                  <div class="trip-img"
+                    style="background-image: url('assets/mont_blanc_new.jpg'); background-size: cover; background-position: center;">
+                  </div>
+                  <div class="trip-info">
+                    <div class="trip-title">Mont Blanc Circuit</div>
+                    <div class="trip-meta">May 10–22, 2026 • 12 days<br>France/Italy/Switzerland •
+                      4,808m<br>Confirmation: ALT-3102</div>
+                    <div class="trip-footer">
+                      <span class="trip-duration">$3,100</span>
+                      <span class="trip-price">Book Details</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="trip-card" onclick="openPopup('trip-anna')">
+                  <div class="trip-img"
+                    style="background-image: url('assets/annapurna_new.jpg'); background-size: cover; background-position: center;">
+                  </div>
+                  <div class="trip-info">
+                    <div class="trip-title">Annapurna Circuit</div>
+                    <div class="trip-meta">Oct 5–25, 2026 • 20 days<br>Nepal • 5,416m elevation<br>Confirmation:
+                      ALT-3256</div>
+                    <div class="trip-footer">
+                      <span class="trip-duration">$3,800</span>
+                      <span class="trip-price">Book Details</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="past" style="display: none;">
+                <div class="trip-card" onclick="openPopup('past-kili')">
+                  <div class="trip-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1589552178221-ce10cf6ebee3?w=800'); background-size: cover; background-position: center;">
+                  </div>
+                  <div class="trip-info">
+                    <div class="trip-title">Kilimanjaro Summit</div>
+                    <div class="trip-meta">Aug 2024 • 8 days • Tanzania<br>Elevation: 5,895m<br><span
+                        class="rating-stars">★★★★★ (5.0)</span></div>
+                    <div class="trip-footer">
+                      <span class="trip-duration">$2,800</span>
+                      <span class="trip-price">View Review</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="trip-card" onclick="openPopup('past-inca')">
+                  <div class="trip-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800'); background-size: cover; background-position: center;">
+                  </div>
+                  <div class="trip-info">
+                    <div class="trip-title">Inca Trail Trek</div>
+                    <div class="trip-meta">Jun 2024 • 4 days • Peru<br>Elevation: 4,215m<br><span
+                        class="rating-stars">★★★★☆ (4.5)</span></div>
+                    <div class="trip-footer">
+                      <span class="trip-duration">$1,200</span>
+                      <span class="trip-price">View Review</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="trip-card" onclick="openPopup('past-loft')">
+                  <div class="trip-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1507272931001-fc06c17e4f43?w=800'); background-size: cover; background-position: center;">
+                  </div>
+                  <div class="trip-info">
+                    <div class="trip-title">Lofoten Islands</div>
+                    <div class="trip-meta">Mar 2024 • 6 days • Norway<br>Elevation: 1,146m<br><span
+                        class="rating-stars">★★★★★ (5.0)</span></div>
+                    <div class="trip-footer">
+                      <span class="trip-duration">$2,100</span>
+                      <span class="trip-price">View Review</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROFILE SCREEN -->
+          <div class="screen" data-screen="profile">
+            <div class="screen-content">
+              <div class="header" style="margin-bottom: 24px;">
+                <div class="header-title" style="text-align: left; width: 100%;">Profile</div>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 24px;">
+                <div
+                  style="width: 80px; height: 80px; border-radius: 50%; background: var(--glass); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 600; margin-bottom: 12px; border: 1px solid var(--border);">
+                  OS</div>
+                <div style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">Om Shukla</div>
+                <div style="font-size: 13px; color: var(--t2);">om.shukla@altus.travel • Member since Jan 2024</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 24px;">
+                <div class="card" style="margin-bottom: 0; text-align: center; padding: 12px;">
+                  <div style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">12</div>
+                  <div style="font-size: 11px; color: var(--t2);">Expeditions</div>
+                </div>
+                <div class="card" style="margin-bottom: 0; text-align: center; padding: 12px;">
+                  <div style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">47k</div>
+                  <div style="font-size: 11px; color: var(--t2);">Elevation</div>
+                </div>
+                <div class="card" style="margin-bottom: 0; text-align: center; padding: 12px;">
+                  <div style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">8</div>
+                  <div style="font-size: 11px; color: var(--t2);">Countries</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center;">
+                <div
+                  style="background: var(--glass); padding: 4px 12px; border-radius: 100px; font-size: 12px; border: 1px solid var(--border);">
+                  Summit Seeker</div>
+                <div
+                  style="background: var(--glass); padding: 4px 12px; border-radius: 100px; font-size: 12px; border: 1px solid var(--border);">
+                  Altitude Pro</div>
+                <div
+                  style="background: var(--glass); padding: 4px 12px; border-radius: 100px; font-size: 12px; border: 1px solid var(--border);">
+                  Trail Blazer</div>
+              </div>
+
+              <div class="card" style="padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;" onclick="goToScreen('home')">
+                <div>Mood Theme</div><div id="mood-status" style="color: rgba(255,255,255,0.65); font-size: 13px;">Calm</div>
+              </div>
+              <div class="card"
+                style="padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between;"
+                onclick="openPopup('notifications')">
+                <div>Notifications</div>
+                <div style="color: var(--t2);">→</div>
+              </div>
+              <div class="card"
+                style="padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between;"
+                onclick="openPopup('privacy')">
+                <div>Privacy & Safety</div>
+                <div style="color: var(--t2);">→</div>
+              </div>
+              <div class="card"
+                style="padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between;"
+                onclick="openPopup('payment')">
+                <div>Payment Methods</div>
+                <div style="color: var(--t2);">→</div>
+              </div>
+              <div class="card"
+                style="padding: 16px; margin-bottom: 24px; display: flex; justify-content: space-between;"
+                onclick="openPopup('emergency')">
+                <div>Emergency Contacts</div>
+                <div style="color: var(--t2);">→</div>
+              </div>
+
+              <button
+                style="width: 100%; padding: 16px; border-radius: var(--r); background: rgba(255,69,58,0.1); color: var(--err); border: 1px solid rgba(255,69,58,0.2); font-weight: 500; font-family: inherit; font-size: 15px;"
+                onclick="alert('Sign out')">Sign Out</button>
+            </div>
+          </div>
+
+          <!-- GUIDES SCREEN -->
+          <div class="screen" data-screen="guides">
+            <div class="screen-content">
+              <div class="header" style="margin-bottom: 16px;">
+                <div class="header-title">Guides</div>
+              </div>
+
+              <div class="section-title" style="margin-bottom: 16px;">Expert Mountain Guides</div>
+
+              <div class="guide-card" onclick="openPopup('guide-tenzing')">
+                <div class="guide-name">Tenzing Dorje</div>
+                <div class="guide-specialty">Himalayan Specialist</div>
+                <div class="guide-meta">200+ summits • Speaks English, Nepali, Tibetan<br>19 years experience</div>
+                <div class="guide-rating">★★★★★ 4.9</div>
+              </div>
+
+              <div class="guide-card" onclick="openPopup('guide-elena')">
+                <div class="guide-name">Elena Rossi</div>
+                <div class="guide-specialty">Alpine Expert</div>
+                <div class="guide-meta">IFMGA certified • 15 years experience<br>Speaks English, Italian, French</div>
+                <div class="guide-rating">★★★★☆ 4.8</div>
+              </div>
+
+              <div class="guide-card" onclick="openPopup('guide-james')">
+                <div class="guide-name">James Nakamura</div>
+                <div class="guide-specialty">Expedition Leader</div>
+                <div class="guide-meta">Patagonia specialist • First Aid certified<br>12 years expedition experience
+                </div>
+                <div class="guide-rating">★★★★★ 4.9</div>
+              </div>
+
+              <div class="guide-card" onclick="openPopup('guide-amara')">
+                <div class="guide-name">Amara Okafor</div>
+                <div class="guide-specialty">High Altitude Coach</div>
+                <div class="guide-meta">Kilimanjaro & Rwenzori expert<br>10 years coaching experience</div>
+                <div class="guide-rating">★★★★☆ 4.7</div>
+              </div>
+
+              <div class="section-title" style="margin-top: 24px;">Altitude Training</div>
+              <div class="card" onclick="openPopup('guide-acclim')">
+                <div class="card-title">Acclimatization Tips</div>
+                <div class="card-meta">Learn proven techniques for high altitude adaptation. Includes rest day
+                  schedules, hydration protocols, and symptom recognition.</div>
+              </div>
+              <div class="card" onclick="openPopup('guide-train')">
+                <div class="card-title">Training Plans</div>
+                <div class="card-meta">Customized 8–12 week programs before your expedition. Cardio, strength, and
+                  endurance modules tailored to your target altitude.</div>
+              </div>
+
+              <div class="section-title" style="margin-top: 24px;">Gear Essentials</div>
+              <div class="card" onclick="openPopup('gear-summer')">
+                <div class="card-title">Summer Alpine Kit</div>
+                <div class="card-meta">4,000–5,000m • Recommended gear: down jacket, technical shells, approach shoes,
+                  climbing rope, harness.</div>
+              </div>
+              <div class="card" onclick="openPopup('gear-winter')">
+                <div class="card-title">Winter Extreme Kit</div>
+                <div class="card-meta">6,000m+ • Critical items: expedition boots, -40°C down parka, oxygen system,
+                  expedition tent.</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <button class="btn btn-pri" onclick="pop('concierge')">Contact Concierge</button>
-      </div>
-    </div>
-
-    <!-- VAULT / SAVED -->
-    <div class="scr" id="scr-vault">
-      <div class="sub-head" style="padding-top:24px"><div class="sub-title">The Vault</div><div class="sub-lbl">2 BOARDS</div></div>
-      <div class="scr-body">
-        <div class="h-card" style="height:240px" onclick="pop('Winter')">
-          <img class="h-img" src="https://images.unsplash.com/photo-1491295240217-152e728795bd?auto=format&fit=crop&q=80&w=800" alt="Winter">
-          <div class="h-over" style="padding:20px">
-            <div class="h-title" style="font-size:24px">Winter 2027</div>
-            <div class="h-loc">5 PROPERTIES SAVED</div>
+        <div class="bottom-nav">
+          <div class="nav-item active" onclick="goToScreen('home')">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+            </svg>
+            <div class="nav-label">Home</div>
+          </div>
+          <div class="nav-item" onclick="goToScreen('explore')">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <div class="nav-label">Explore</div>
+          </div>
+          <div class="nav-item" onclick="goToScreen('trips')">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+              <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+            </svg>
+            <div class="nav-label">Trips</div>
+          </div>
+          <div class="nav-item" onclick="goToScreen('guides')">
+            <svg viewBox="0 0 24 24">
+              <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+            </svg>
+            <div class="nav-label">Guides</div>
+          </div>
+          <div class="nav-item" onclick="goToScreen('profile')">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <div class="nav-label">Profile</div>
           </div>
         </div>
+      </div>
 
-        <div class="h-card" style="height:240px;opacity:0.6" onclick="pop('Summer')">
-          <img class="h-img" src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&q=80&w=800" alt="Summer">
-          <div class="h-over" style="padding:20px">
-            <div class="h-title" style="font-size:24px">Summer Escape</div>
-            <div class="h-loc">2 PROPERTIES SAVED</div>
+      <!-- POPUP OVERLAY -->
+      <div class="pop-ov" id="popupOverlay" onclick="closePopup(event)">
+        <div class="pop-sheet" onclick="event.stopPropagation()">
+          <div class="pop-handle"></div>
+          <div class="pop-header">
+            <div class="pop-title" id="popupTitle">Details</div>
+            <button class="pop-close" onclick="closePopup()">
+              <svg viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
           </div>
+          <div class="pop-content" id="popupContent"></div>
         </div>
       </div>
     </div>
-
-    <!-- NAV -->
-    <nav class="bnav">
-      <button class="nb on" data-t="home" onclick="nav('home')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" stroke="currentColor"/><path d="M12 12v9" stroke="currentColor"/><path d="m8 17 4 4 4-4" stroke="currentColor"/></svg><span class="nb-l">Discover</span></button>
-      <button class="nb" data-t="search" onclick="nav('search')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span class="nb-l">Search</span></button>
-      <button class="nb" data-t="itin" onclick="nav('itin')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="nb-l">Itinerary</span></button>
-      <button class="nb" data-t="vault" onclick="nav('vault')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="nb-l">Vault</span></button>
-    </nav>
   </div>
-  
-  <!-- PROFILE SLIDER -->
-  <div class="prof-ov" id="profOv"><div class="prof-bk" onclick="togProf()"></div><div class="prof-pan" id="profPan">
-    <div class="prof-row"><div class="prof-t">Profile</div><button class="ico-btn" onclick="togProf()" style="width:36px;height:36px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    
-    <div style="font-size:22px;color:var(--t1);margin-bottom:6px">Om Shukla</div>
-    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--acc);letter-spacing:1px;margin-bottom:32px">ALTUS BLACK &bull; FOUNDING MEMBER</div>
-    
-    <div class="set-i"><div><div class="set-n">Travel Preferences</div><div class="set-d">Dietary, Seating, Pillows</div></div><div style="color:var(--t3)">&rarr;</div></div>
-    <div class="set-i"><div><div class="set-n">Payment Methods</div><div class="set-d">Amex Centurion (...8103)</div></div><div style="color:var(--t3)">&rarr;</div></div>
-    <div class="set-i"><div><div class="set-n">Passport & Visas</div><div class="set-d">2 Documents securely stored</div></div><div style="color:var(--t3)">&rarr;</div></div>
-    
-    <button class="btn" style="margin-top:40px;background:transparent;border:1px solid var(--border);color:var(--t1)" onclick="pop('signout')">Sign Out</button>
-  </div></div>
 
-  <!-- POPUP -->
-  <div class="pop-ov" id="popOv"><div class="pop-bk" onclick="closePop()"></div><div class="pop-c" id="popC"></div></div>
-</div>
+  <script>
+    function goToScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelector(`[data-screen="${name}"]`).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach((item, idx) => {
+        const screens = ['home', 'explore', 'trips', 'guides', 'profile'];
+        item.classList.toggle('active', screens[idx] === name);
+      });
+    }
 
-<script>
-let cur='home', light=false;
+    const moodVideos = {
+      calm: 'https://raw.githubusercontent.com/i-ayush-7/My-Project/main/a-loop-night-camping-video-of-patagonia-in-chile.mp4',
+      energetic: 'https://raw.githubusercontent.com/i-ayush-7/My-Project/main/a-loop-video-of-a-dark-animated-forest.mp4',
+      intense: 'https://raw.githubusercontent.com/i-ayush-7/My-Project/main/a-loop-video-of-the-side-view-of-k2-mountain-anima.mp4'
+    };
 
-function nav(t){
-  cur=t;
-  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
-  document.getElementById('scr-'+t).classList.add('active');
-  document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-}
+    // Smooth loop: fade out near end, seek to start, fade back in
+    function initSmoothLoop(video) {
+      let looping = false;
+      video.addEventListener('timeupdate', () => {
+        if (!video.duration) return;
+        const remaining = video.duration - video.currentTime;
+        if (remaining < 1.2 && !looping) {
+          looping = true;
+          video.style.transition = 'opacity 0.8s ease';
+          video.style.opacity = '0';
+          setTimeout(() => {
+            video.currentTime = 0;
+            video.play().catch(() => {});
+            video.style.opacity = '1';
+            setTimeout(() => { looping = false; }, 1500);
+          }, 800);
+        }
+      });
+    }
 
-function togProf(){
-  document.getElementById('profOv').classList.toggle('open');
-}
+    // Init on page load
+    const bgVideo = document.getElementById('bgVideo');
+    bgVideo.removeAttribute('loop');
+    bgVideo.addEventListener('loadedmetadata', () => initSmoothLoop(bgVideo));
+    if (bgVideo.readyState >= 1) initSmoothLoop(bgVideo);
 
-function togTheme(){
-  light=!light;
-  document.getElementById('phone').classList.toggle('light',light);
-  document.body.classList.toggle('light',light);
-  document.getElementById('appGlow').style.opacity=light?'0':'';
-  document.getElementById('themeBtn').innerHTML=light?
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>':
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-}
+    const moodLabels = { calm: 'Calm', energetic: 'Energetic', intense: 'Intense' };
 
-function pop(txt){
-  const c=document.getElementById('popC');
-  let t='Exclusive Access', d='This feature is available to Altus Black members.';
-  if(txt==='concierge'){t='Private Concierge';d='Connecting you to your dedicated travel advisor via secure channel...';}
-  if(txt==='Aman'){t='Amanzoe Private Villas';d='The most exclusive resort in the Mediterranean. Set on a hilltop on the east coast of Greece’s Peloponnese peninsula.';}
-  
-  c.innerHTML = '<div class="pop-t">' + t + '</div>' + 
-                '<div class="pop-d">' + d + '</div>' + 
-                '<button class="btn btn-pri" onclick="closePop()">Close</button>';
-  document.getElementById('popOv').classList.add('open');
-}
+    function switchMood(mood, el) {
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
 
-function closePop(){ document.getElementById('popOv').classList.remove('open'); }
+      // Update profile mood status
+      const moodStatus = document.getElementById('mood-status');
+      if (moodStatus) moodStatus.textContent = moodLabels[mood];
 
-</script>
+      // Crossfade to new video
+      const video = document.getElementById('bgVideo');
+      const ambient = document.getElementById('ambientVideo');
+      video.style.transition = 'opacity 0.5s ease';
+      video.style.opacity = '0';
+      ambient.style.transition = 'opacity 0.8s ease';
+      ambient.style.opacity = '0';
+      setTimeout(() => {
+        video.src = moodVideos[mood];
+        video.load();
+        video.play().catch(() => {});
+        video.style.opacity = '1';
+        video.addEventListener('loadedmetadata', () => initSmoothLoop(video), { once: true });
+        // Sync ambient
+        ambient.src = moodVideos[mood];
+        ambient.load();
+        ambient.play().catch(() => {});
+        ambient.style.opacity = '1';
+      }, 500);
+    }
+
+    function switchTab(el, id) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.querySelectorAll('#upcoming, #past').forEach(d => d.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    const popups = {
+      'expedition': { title: 'Everest Base Camp Trek', content: '<div class="pop-section"><div class="pop-section-title">Overview</div><div class="pop-text">The Everest Base Camp Trek is one of the world\'s most iconic high-altitude treks. This 16-day expedition takes you through remote Himalayan villages, pristine monasteries, and awe-inspiring mountain vistas, culminating at the base camp of the world\'s highest peak.</div></div><div class="pop-section"><div class="pop-section-title">Itinerary (Days 1–5)</div><ul class="pop-list"><li><strong>Day 1:</strong> Kathmandu • Rest & acclimatization (1,336m)</li><li><strong>Day 2:</strong> Fly to Lukla • Trek to Phakding (2,610m)</li><li><strong>Day 3:</strong> Phakding to Namche Bazaar (3,440m)</li><li><strong>Day 4:</strong> Acclimatization day in Namche (3,440m)</li><li><strong>Day 5:</strong> Namche to Tengboche (3,867m)</li></ul></div><div class="pop-section"><div class="pop-section-title">Details</div><div class="pop-text"><strong>Duration:</strong> 16 days | <strong>Max Altitude:</strong> 5,364m | <strong>Difficulty:</strong> Moderate-Challenging | <strong>Best Season:</strong> Apr–May, Sep–Oct</div></div><button class="pop-button">View Full Itinerary</button>' },
+      'weather': { title: 'Weather Forecast', content: '<div class="pop-section"><div class="pop-section-title">7-Day Forecast</div><div class="pop-text"><strong>Day 1:</strong> -8°C, Clear skies, Wind 15 km/h<br><strong>Day 2:</strong> -6°C, Partly cloudy, Wind 10 km/h<br><strong>Day 3:</strong> -12°C, Snow showers, Wind 25 km/h<br><strong>Day 4:</strong> -9°C, Clear, Wind 12 km/h<br><strong>Day 5:</strong> -7°C, Mostly clear, Wind 8 km/h</div></div><div class="pop-section"><div class="pop-section-title">Advisory</div><div class="pop-text">Rapid weather changes expected. Pack waterproof layers and prepare for temperature drops. High altitude sickness risk during poor visibility windows.</div></div>' },
+      'stats': { title: 'Explorer Statistics', content: '<div class="pop-section"><div class="pop-section-title">Your Stats</div><div class="pop-text"><strong>Total Expeditions:</strong> 12<br><strong>Elevation Gain:</strong> 47,000m<br><strong>Countries:</strong> 8<br><strong>Summit Success Rate:</strong> 98%<br><strong>Average Altitude:</strong> 4,917m</div></div><div class="pop-section"><div class="pop-section-title">Peak Experiences</div><div class="pop-text"><strong>Highest Summit:</strong> Mount Everest (8,849m)<br><strong>Longest Trek:</strong> Annapurna Circuit (20 days)<br><strong>Most Popular Region:</strong> Himalayas (5 treks)</div></div>' },
+      'dest-ebc': { title: 'Everest Base Camp', content: '<div class="pop-section"><div class="pop-section-title">Destination</div><div class="pop-text">The gateway to Mount Everest, Nepal. Offers trekkers the closest non-climbing access to the world\'s highest peak. Trek passes through Sherpa villages and monasteries.</div></div><div class="pop-section"><div class="pop-section-title">Key Info</div><div class="pop-text"><strong>Altitude:</strong> 5,364m | <strong>Season:</strong> Apr–May, Sep–Oct | <strong>Duration:</strong> 12–16 days | <strong>Difficulty:</strong> Moderate</div></div><div class="pop-section"><div class="pop-section-title">Required Gear</div><ul class="pop-list"><li>Trekking boots (broken in)</li><li>Layered clothing system</li><li>Down parka & insulation</li><li>Trekking poles & backpack</li></ul></div><button class="pop-button">Book Expedition</button>' },
+      'dest-pat': { title: 'Patagonia Trek', content: '<div class="pop-section"><div class="pop-section-title">Destination</div><div class="pop-text">Southern Chile offers dramatic granite peaks, turquoise glaciers, and windswept landscapes. Perfect for experienced trekkers seeking raw alpine beauty.</div></div><div class="pop-section"><div class="pop-section-title">Key Info</div><div class="pop-text"><strong>Altitude:</strong> 4,058m | <strong>Season:</strong> Nov–Feb | <strong>Duration:</strong> 10–14 days | <strong>Difficulty:</strong> Challenging</div></div><div class="pop-section"><div class="pop-section-title">Highlights</div><div class="pop-text">Torres del Paine, Grey Glacier, Fitzroy peak, pristine wilderness, wildlife encounters.</div></div><button class="pop-button">Book Expedition</button>' },
+      'dest-dol': { title: 'Dolomites Trek', content: '<div class="pop-section"><div class="pop-section-title">Destination</div><div class="pop-text">UNESCO limestone peaks in northeastern Italy. Offers accessible alpine terrain, charming huts, local cuisine, and spectacular jagged mountain scenery.</div></div><div class="pop-section"><div class="pop-section-title">Key Info</div><div class="pop-text"><strong>Altitude:</strong> 3,999m | <strong>Season:</strong> Jun–Sep | <strong>Duration:</strong> 8–10 days | <strong>Difficulty:</strong> Moderate</div></div><div class="pop-section"><div class="pop-section-title">Highlights</div><div class="pop-text">Tre Cime di Lavaredo, alpine huts, via ferrata options, family-friendly routes, sunset views.</div></div><button class="pop-button">Book Expedition</button>' },
+      'dest-swiss': { title: 'Swiss Alps', content: '<div class="pop-section"><div class="pop-section-title">Destination</div><div class="pop-text">Home to Europe\'s most famous peaks. Combines technical climbing, well-maintained hut systems, and world-class infrastructure for serious mountaineers.</div></div><div class="pop-section"><div class="pop-section-title">Key Info</div><div class="pop-text"><strong>Altitude:</strong> 4,634m | <strong>Season:</strong> Jul–Sep | <strong>Duration:</strong> 10–14 days | <strong>Difficulty:</strong> Challenging</div></div><div class="pop-section"><div class="pop-section-title">Highlights</div><div class="pop-text">Mont Blanc, Gran Paradiso, rock climbing, glacier crossing, hut-to-hut systems, Swiss hospitality.</div></div><button class="pop-button">Book Expedition</button>' },
+      'dest-kili': { title: 'Kilimanjaro', content: '<div class="pop-section"><div class="pop-section-title">Destination</div><div class="pop-text">Africa\'s tallest free-standing peak in Tanzania. Attracts climbers seeking iconic African summit through diverse ecosystems from jungle to arctic summit.</div></div><div class="pop-section"><div class="pop-section-title">Key Info</div><div class="pop-text"><strong>Altitude:</strong> 5,895m | <strong>Season:</strong> Jun–Oct | <strong>Duration:</strong> 5–8 days | <strong>Difficulty:</strong> Moderate</div></div><div class="pop-section"><div class="pop-section-title">Routes</div><div class="pop-text">Marangu (hut), Machame (scenic), Lemosho (remote), Rongai (north), Umbwe (steep). Success rates 65–85%.</div></div><button class="pop-button">Book Expedition</button>' },
+      'trek-mb': { title: 'Mont Blanc Circuit', content: '<div class="pop-section"><div class="pop-section-title">Overview</div><div class="pop-text">Circumnavigates Europe\'s highest peak through three countries. Crosses stunning alpine scenery, mountain huts, and villages. Moderate classic for experienced trekkers.</div></div><div class="pop-section"><div class="pop-section-title">Details</div><div class="pop-text"><strong>Duration:</strong> 12 days | <strong>Altitude:</strong> 4,808m | <strong>Price:</strong> €2,850 | <strong>Season:</strong> Jul–Sep</div></div><div class="pop-section"><div class="pop-section-title">Daily Highlights</div><div class="pop-text">Days 1–2: Chamonix acclimatization | Days 3–4: Italian side | Days 5–7: Swiss valleys | Days 8–12: France return</div></div><button class="pop-button">Book Now</button>' },
+      'trek-gr': { title: 'GR20 Corsica Trail', content: '<div class="pop-section"><div class="pop-section-title">Overview</div><div class="pop-text">Corsica\'s legendary trail crosses the island through granite peaks, alpine lakes, and forests. Challenging 15-day trek for fit hikers with serious daily elevation.</div></div><div class="pop-section"><div class="pop-section-title">Details</div><div class="pop-text"><strong>Duration:</strong> 15 days | <strong>Altitude:</strong> 2,710m | <strong>Price:</strong> €1,600 | <strong>Daily Distance:</strong> 16–22 km</div></div><div class="pop-section"><div class="pop-section-title">Difficulty Notes</div><div class="pop-text">Steep ascents/descents, scrambling sections, mountain hut stays (book ahead), limited water. Not for beginners. Excellent markings.</div></div><button class="pop-button">Book Now</button>' },
+      'trip-ebc': { title: 'Everest Base Camp Trek', content: '<div class="pop-section"><div class="pop-section-title">Complete Itinerary</div><ul class="pop-list"><li><strong>Days 1–2:</strong> Kathmandu arrival, gear check</li><li><strong>Day 3:</strong> Fly Lukla, trek Phakding</li><li><strong>Day 4:</strong> Trek to Namche Bazaar (3,440m)</li><li><strong>Day 5:</strong> Acclimatize Namche, explore</li><li><strong>Days 6–10:</strong> Yak hotel, Tengboche, Dingboche, Gorak Shep</li><li><strong>Day 11:</strong> Everest Base Camp (5,364m)</li><li><strong>Days 12–16:</strong> Descent with rest days, return flights</li></ul></div><div class="pop-section"><div class="pop-section-title">Included Gear</div><div class="pop-text">Down parka, insulated sleeping bag, trekking boots, guide & porter, all meals, emergency oxygen.</div></div><div class="pop-section"><div class="pop-section-title">Guide & Contacts</div><div class="pop-text"><strong>Lead Guide:</strong> Tenzing Dorje | <strong>Emergency:</strong> +1-800-ALTUS-911</div></div>' },
+      'trip-mb': { title: 'Mont Blanc Circuit', content: '<div class="pop-section"><div class="pop-section-title">Detailed Itinerary</div><ul class="pop-list"><li><strong>Days 1–2:</strong> Chamonix base, acclimatize</li><li><strong>Days 3–5:</strong> Chamonix to Courmayeur</li><li><strong>Days 6–8:</strong> Italian side, Veny valley</li><li><strong>Days 9–11:</strong> Swiss valleys, La Forclaz descent</li><li><strong>Day 12:</strong> Return Chamonix, celebration dinner</li></ul></div><div class="pop-section"><div class="pop-section-title">Included Services</div><div class="pop-text">Alpine guide (IFMGA), hut accommodations, breakfast & dinner, equipment briefing, weather updates, 24/7 support.</div></div><div class="pop-section"><div class="pop-section-title">Confirmation</div><div class="pop-text"><strong>Code:</strong> ALT-3102 | <strong>Guide:</strong> Elena Rossi | <strong>Phone:</strong> +33-4-XXXX-XXXX</div></div>' },
+      'trip-anna': { title: 'Annapurna Circuit', content: '<div class="pop-section"><div class="pop-section-title">Epic 20-Day Itinerary</div><ul class="pop-list"><li><strong>Days 1–3:</strong> Kathmandu, Pokhara, trek start</li><li><strong>Days 4–10:</strong> Ascend to Thorong La base (4,450m)</li><li><strong>Days 11–15:</strong> Cross Thorong La (5,416m), descent</li><li><strong>Days 16–20:</strong> Jomsom descent, Pokhara, return</li></ul></div><div class="pop-section"><div class="pop-section-title">Safety & Altitude</div><div class="pop-text">Daily height gains managed for acclimatization. Porters provided. Rest days built in. Altitude kit included.</div></div><div class="pop-section"><div class="pop-section-title">Essential Info</div><div class="pop-text"><strong>Code:</strong> ALT-3256 | <strong>Price:</strong> $3,800 | <strong>Confirmation:</strong> om.shukla@altus.travel</div></div>' },
+      'past-kili': { title: 'Kilimanjaro Review', content: '<div class="pop-section"><div class="pop-section-title">Your Experience</div><div class="pop-text"><strong>Rating:</strong> 5.0★ | Aug 2024, 8 days<br>Unforgettable summit. Sunrise from Uhuru Peak was beyond words. Excellent guide (Juma). Perfect weather. Highly recommend Machame route.</div></div><div class="pop-section"><div class="pop-section-title">Highlights</div><div class="pop-text">Sunrise summit, crater rim hike, wildlife, camaraderie, village visits, stunning vistas from 5,895m.</div></div><div class="pop-section"><div class="pop-section-title">Cost Breakdown</div><div class="pop-text"><strong>Total:</strong> $2,800 | Permit: $700 | Guide/Porter: $900 | Lodging: $800 | Flights: $400</div></div><button class="pop-button">Book Again</button>' },
+      'past-inca': { title: 'Inca Trail Review', content: '<div class="pop-section"><div class="pop-section-title">Your Experience</div><div class="pop-text"><strong>Rating:</strong> 4.5★ | Jun 2024, 4 days<br>Classic trek with amazing culture. Machu Picchu sunrise magical. Slight rain Day 2. Excellent porters. Worth the hype!</div></div><div class="pop-section"><div class="pop-section-title">Highlights</div><div class="pop-text">Machu Picchu sunrise, Dead Woman\'s Pass, Inca ruins, cloud forest, local guides, perfect fitness challenge.</div></div><div class="pop-section"><div class="pop-section-title">Total Cost</div><div class="pop-text"><strong>$1,200</strong> | Permits: $400 | Guides: $350 | Lodging/Meals: $300 | Transport: $150</div></div><button class="pop-button">Book Again</button>' },
+      'past-loft': { title: 'Lofoten Islands Review', content: '<div class="pop-section"><div class="pop-section-title">Your Experience</div><div class="pop-text"><strong>Rating:</strong> 5.0★ | Mar 2024, 6 days<br>Breathtaking Arctic landscapes and Northern Lights! Despite harsh weather, experience was transformative. Warm huts contrasted cold hikes. Photographer\'s paradise.</div></div><div class="pop-section"><div class="pop-section-title">Highlights</div><div class="pop-text">Northern Lights dancing, dramatic cliffs, Reine village, frozen fjords, fishermen culture, midnight sun, hot cocoa.</div></div><div class="pop-section"><div class="pop-section-title">Cost Summary</div><div class="pop-text"><strong>Total:</strong> $2,100 | Lodging: $800 | Tours: $600 | Meals: $400 | Flights: $300</div></div><button class="pop-button">Book Again</button>' },
+      'guide-tenzing': { title: 'Tenzing Dorje', content: '<div class="pop-section"><div class="pop-section-title">Bio</div><div class="pop-text">Legendary Himalayan guide with 200+ summits across Everest, Lhotse, Cho Oyu. Sherpa heritage brings deep cultural knowledge and altitude expertise. 19 years guiding.</div></div><div class="pop-section"><div class="pop-section-title">Certifications & Languages</div><div class="pop-text"><strong>Certifications:</strong> IFMGA Guide, Wilderness First Responder, Oxygen Management<br><strong>Languages:</strong> English, Nepali, Tibetan, Mandarin (basic)</div></div><div class="pop-section"><div class="pop-section-title">Notable Expeditions</div><div class="pop-text">Everest (15 summits), Lhotse, Elbrus, Aconcagua, Kilimanjaro, K2 base camp. Rescue operations: 12+ high-altitude rescues.</div></div><button class="pop-button">Request Guide</button>' },
+      'guide-elena': { title: 'Elena Rossi', content: '<div class="pop-section"><div class="pop-section-title">Bio</div><div class="pop-text">IFMGA Alpine specialist with 15 years guiding the Alps, Patagonia, and expeditions worldwide. Known for meticulous planning, technical expertise, and exceptional care. 100% safety record (500+ clients).</div></div><div class="pop-section"><div class="pop-section-title">Certifications & Languages</div><div class="pop-text"><strong>Certifications:</strong> IFMGA Guide, Rock Instructor, Avalanche Forecasting<br><strong>Languages:</strong> English, Italian, French, German</div></div><div class="pop-section"><div class="pop-section-title">Specialties</div><div class="pop-text">Mont Blanc, Gran Paradiso, rock climbing (all grades), alpine terrain, women mentoring. Availability: May–Oct.</div></div><button class="pop-button">Request Guide</button>' },
+      'guide-james': { title: 'James Nakamura', content: '<div class="pop-section"><div class="pop-section-title">Bio</div><div class="pop-text">Expedition leader specializing in Patagonia, Andes, and remote regions. 12 years leadership experience and first-aid certified. Excels at complex logistics and diverse teams in extreme environments.</div></div><div class="pop-section"><div class="pop-section-title">Certifications & Languages</div><div class="pop-text"><strong>Certifications:</strong> Wilderness First Responder, Expedition Leader, Technical Ice/Rock<br><strong>Languages:</strong> English, Spanish, Japanese</div></div><div class="pop-section"><div class="pop-section-title">Expedition History</div><div class="pop-text">Patagonia specialist (50+ treks), Aconcagua guide, Denali logistics, Antarctic expeditions. Group size: 4–12. Eco-tourism advocate.</div></div><button class="pop-button">Request Guide</button>' },
+      'guide-amara': { title: 'Amara Okafor', content: '<div class="pop-section"><div class="pop-section-title">Bio</div><div class="pop-text">High-altitude sports coach and Kilimanjaro/Rwenzori specialist with 10 years coaching. Trained 300+ climbers using evidence-based acclimatization. Passionate about altitude physiology education.</div></div><div class="pop-section"><div class="pop-section-title">Certifications & Languages</div><div class="pop-text"><strong>Certifications:</strong> Sports Science Degree, Altitude Physiology Specialist, Wilderness Medicine<br><strong>Languages:</strong> English, Swahili, French, Yoruba</div></div><div class="pop-section"><div class="pop-section-title">Specialties</div><div class="pop-text">Training coaching, acclimatization schedules, fitness programs, altitude sickness prevention, summit psychology. Success rate: 94%.</div></div><button class="pop-button">Request Guide</button>' },
+      'guide-acclim': { title: 'Acclimatization Tips', content: '<div class="pop-section"><div class="pop-section-title">Hydration Protocol</div><div class="pop-text">Drink 4-5 liters of water daily. Avoid alcohol and caffeine. Monitor urine color.</div></div><div class="pop-section"><div class="pop-section-title">Pacing</div><div class="pop-text">"Pole pole" (slowly). Heart rate should be strictly managed below 130bpm during initial ascents.</div></div>' },
+      'guide-train': { title: 'Training Plans', content: '<div class="pop-section"><div class="pop-section-title">Cardio Endurance</div><div class="pop-text">3-4x weekly runs (10-15km) or stair master with weighted pack (15kg). Active recovery.</div></div><div class="pop-section"><div class="pop-section-title">Strength</div><div class="pop-text">Core stability, unilateral leg exercises, and back strengthening twice a week.</div></div>' },
+      'gear-summer': { title: 'Summer Alpine Kit', content: '<ul class="pop-list"><li>Hardshell jacket & pants</li><li>Mid-layer insulation (fleece)</li><li>Base layers (merino wool)</li><li>Approach shoes & crampon-compatible boots</li><li>Harness, helmet, ice axe</li></ul>' },
+      'gear-winter': { title: 'Winter Extreme Kit', content: '<ul class="pop-list"><li>-40°C Down Parka</li><li>Double expedition boots</li><li>Oxygen mask & regulator</li><li>Mittens (expedition weight)</li><li>4-season basecamp tent</li></ul>' },
+      'notifications': { title: 'Notifications', content: '<div class="toggle-switch"><label>Push Notifications</label><div class="toggle on" onclick="this.classList.toggle(\'on\')"></div></div><div class="toggle-switch"><label>Email Digest (Weekly)</label><div class="toggle on" onclick="this.classList.toggle(\'on\')"></div></div><div class="toggle-switch"><label>Trip Reminders</label><div class="toggle on" onclick="this.classList.toggle(\'on\')"></div></div><div class="toggle-switch"><label>Weather Alerts</label><div class="toggle" onclick="this.classList.toggle(\'on\')"></div></div>' },
+      'privacy': { title: 'Privacy & Safety', content: '<div class="toggle-switch"><label>Share Location with Guide</label><div class="toggle on" onclick="this.classList.toggle(\'on\')"></div></div><div class="toggle-switch"><label>Emergency SOS Enabled</label><div class="toggle on" onclick="this.classList.toggle(\'on\')"></div></div><div class="pop-section"><div class="pop-section-title">Profile Visibility</div><div class="pop-text"><strong>Public:</strong> Show badges & stats to community<br><strong>Friends Only:</strong> Visible to guides & companions<br><strong>Private:</strong> Hidden from all except Altus support</div></div>' },
+      'payment': { title: 'Payment Methods', content: '<div class="pop-section"><div class="pop-section-title">Saved Cards</div><div class="pop-text"><strong>Visa ending 4821</strong> (default)<br>Expires: 12/2026 | Billing address on file</div></div><div class="pop-section"><div class="pop-section-title">Actions</div><div class="pop-text">• Add new payment method<br>• Update billing address<br>• View transaction history<br>• Set preferences</div></div>' },
+      'emergency': { title: 'Emergency Contacts', content: '<div class="pop-section"><div class="pop-section-title">Your Contacts</div><div class="pop-text"><strong>Contact 1:</strong> Priya Shukla (Sister)<br>Phone: +91-9876543210<br><br><strong>Contact 2:</strong> Altus 24/7 Emergency<br>Phone: +1-800-ALTUS-911<br>Email: emergency@altus.travel</div></div><div class="pop-section"><div class="pop-section-title">Medical Info</div><div class="pop-text"><strong>Allergies:</strong> None<br><strong>Blood Type:</strong> O+<br><strong>Insurance:</strong> Global Rescue (Policy #ALT-2024-0847)</div></div>' }
+    };
+
+    function openPopup(key) {
+      const popup = popups[key];
+      if (!popup) return;
+      document.getElementById('popupTitle').textContent = popup.title;
+      document.getElementById('popupContent').innerHTML = popup.content;
+      document.getElementById('popupOverlay').classList.add('open');
+    }
+
+    function closePopup(e) {
+      if (e && e.target !== document.getElementById('popupOverlay')) return;
+      document.getElementById('popupOverlay').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePopup();
+    });
+  </script>
 </body>
+
 </html>
